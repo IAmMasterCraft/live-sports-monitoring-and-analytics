@@ -2,25 +2,25 @@ package store
 
 import (
     "fmt"
+    "gorm.io/gorm"
+    "gorm.io/driver/mysql"
     "live-event-dashboard/internal/config"
-    "github.com/jmoiron/sqlx"
-    _ "github.com/go-sql-driver/mysql" // MySQL driver
 )
 
-// DB stores the database session information. Needs to be initialized once
-type DB struct {
-    *sqlx.DB
+// Database represents a GORM DB connection
+type Database struct {
+    *gorm.DB
 }
 
-// NewDB creates a new database connection to the MySQL server
-func NewDB(cfg config.DatabaseConfig) (*DB, error) {
-    dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true",
+// NewDatabase initializes a new database connection
+func NewDatabase(cfg config.DatabaseConfig) (*Database, error) {
+    dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
         cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)
     
-    db, err := sqlx.Connect("mysql", dsn)
+    db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
     if err != nil {
         return nil, err
     }
 
-    return &DB{db}, nil
+    return &Database{db}, nil
 }
