@@ -5,9 +5,9 @@ import (
     "fmt"
     "net/http"
 	"live-event-dashboard/internal/config"
-    "live-event-dashboard/internal/api"
     "live-event-dashboard/internal/store"
 	"live-event-dashboard/pkg/middleware"
+	"live-event-dashboard/internal/api"
 )
 
 func main() {
@@ -21,9 +21,12 @@ func main() {
         log.Fatalf("Failed to connect to database: %v", err)
     }
 	log.Printf("Connected to database: %s", cfg.Database.DBName)
-	log.Printf("Database Connection %v", db)
 
-    mux := api.RegisterRoutes()
+	if err := db.AutoMigrate(); err != nil {
+        log.Fatalf("Failed to migrate database schemas: %v", err)
+    }
+
+    mux := api.RegisterRoutes(db)
     wrappedMux := middleware.LogRequest(middleware.ErrorHandler(mux))
     
 	log.Printf("Starting server on :%d", cfg.Server.Port)
