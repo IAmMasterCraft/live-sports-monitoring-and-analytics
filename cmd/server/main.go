@@ -8,6 +8,7 @@ import (
     "live-event-dashboard/internal/store"
 	"live-event-dashboard/pkg/middleware"
 	"live-event-dashboard/internal/api"
+	"live-event-dashboard/internal/service"
 )
 
 func main() {
@@ -26,6 +27,7 @@ func main() {
         log.Fatalf("Failed to migrate database schemas: %v", err)
     }
 
+	service.GetLiveData()
     mux := api.RegisterRoutes(db)
     wrappedMux := middleware.LogRequest(middleware.ErrorHandler(mux))
     
