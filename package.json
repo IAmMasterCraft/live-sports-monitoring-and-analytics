@@ -1,0 +1,14 @@
+{
+  "name": "live-event-dashboard",
+  "version": "1.0.0",
+  "description": "js section for selenium action",
+  "main": "server.js",
+  "repository": "https://github.com/IAmMasterCraft/live-sports-monitoring-and-analytics.git",
+  "author": "IAmMasterCraft <bolu.akinsefunmi@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chromedriver": "^125.0.1",
+    "dotenv": "^16.4.5",
+    "selenium-webdriver": "^4.21.0"
+  }
+}
