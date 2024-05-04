@@ -10,9 +10,12 @@ const STAKE_AMOUNT = 100;
 const USERNAME = process.env.SPORTY_BET_USERNAME;
 const PASSWORD = process.env.SPORTY_BET_PASSWORD;
 
+const isMac = os.platform() === 'darwin';
+
 // Helper Functions
 async function clearBox(webElement) {
-    await webElement.sendKeys(Key.CONTROL, "a");
+    const selectAll = isMac ? Key.chord(Key.COMMAND, 'a') : Key.chord(Key.CONTROL, 'a');
+    await webElement.sendKeys(selectAll);
     await webElement.sendKeys(Key.BACK_SPACE);
 }
 
