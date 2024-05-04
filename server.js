@@ -2,6 +2,7 @@ require('dotenv').config();
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const fs = require('fs');
+const os = require('os');
 
 // Constants
 const MAXIMUM_ODD = 1.2;
