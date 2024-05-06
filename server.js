@@ -33,7 +33,7 @@ function checkSimulated(name) {
   let options = new chrome.Options();
   options.addArguments("--no-sandbox");
   options.addArguments("--disable-dev-shm-usage");
-  // options.addArguments('--headless');
+  options.addArguments('--headless');
 
   let driver = await new Builder()
     .forBrowser("chrome")
