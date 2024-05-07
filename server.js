@@ -147,6 +147,25 @@ function checkSimulated(name) {
 
     let actions = driver.actions();
 
+    async function clickButton(buttonLocator, buttonName, retry = false) {
+        try {
+            let button = await driver.wait(until.elementLocated(buttonLocator), 30000);
+            console.log(`${buttonName} button found`);
+
+            await driver.sleep(2000);
+            await actions.doubleClick(button).perform();
+            console.log(`${buttonName} button clicked`);
+        } catch (error) {
+            console.log(`Error clicking ${buttonName} button: `, error);
+            if (retry && error.name === 'NoSuchElementError') {
+                await clickAcceptChangesButton();
+                await clickButton(buttonLocator, buttonName);
+            } else {
+                throw error;
+            }
+        }
+    }
+
     async function clickPlaceBetButton() {
       try {
         let placeBetLocator = By.css(
