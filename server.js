@@ -113,6 +113,47 @@ function checkSimulated(name) {
 
         let actions = driver.actions();
 
+        async function clickPlaceBetButton() {
+            try {
+                let placeBetLocator = By.css("div.m-btn-wrapper button.af-button.af-button--primary");
+                let placeBet = await driver.wait(until.elementLocated(placeBetLocator), 30000);
+                console.log("Place bet button found");
+
+                await driver.sleep(5000);
+                await actions.doubleClick(placeBet).perform();
+                console.log("Place bet button clicked");
+            } catch (error) {
+                console.log("Error clicking place bet button: ", error);
+                throw error;
+            }
+        }
+
+        async function clickAcceptChangesButton() {
+            try {
+                let acceptChangesLocator = By.xpath("//span[text()='Accept Changes']");
+                let acceptChanges = await driver.wait(until.elementLocated(acceptChangesLocator), 10000);
+                await acceptChanges.click();
+                console.log("Accept Changes clicked");
+            } catch (error) {
+                console.log("Error clicking accept changes button: ", error);
+                if (error.name !== 'NoSuchElementError') {
+                    throw error;
+                }
+            }
+        }
+
+        async function clickConfirmBetButton() {
+            try {
+                let confirmBetLocator = By.css("div.m-btn-wrapper button.af-button.af-button--primary span[data-cms-key='confirm']");
+                let confirmBet = await driver.wait(until.elementLocated(confirmBetLocator), 30000);
+                await confirmBet.click();
+                console.log("Confirm bet button clicked");
+            } catch (error) {
+                console.log("Error clicking confirm bet button: ", error);
+                throw error;
+            }
+        }
+
         
     } finally {
         await driver.quit();
