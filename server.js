@@ -154,6 +154,23 @@ function checkSimulated(name) {
             }
         }
 
+        try {
+            await clickPlaceBetButton();
+            await driver.sleep(2000);
+            await clickConfirmBetButton();
+        } catch (error) {
+            if (error.name === 'NoSuchElementError') {
+                await clickAcceptChangesButton();
+                await clickPlaceBetButton();
+                await driver.sleep(2000);
+                await clickConfirmBetButton();
+            } else {
+                throw error;
+            }
+        }
+
+        await driver.sleep(5000);
+
         
     } finally {
         await driver.quit();
